@@ -19,60 +19,132 @@
                     v-if="open"
                     v-on-clickaway="clickAway"
             >
+                <div class="headline d-flex justify-content-between" v-if="headline">
+                  <h5 class="title">{{title}}</h5>
+                  <div class="icons-wrapper">
+                    <i class="ocpx-icon-boxycross"></i>
+                    <i class="ocpx-icon-minus"></i>
+                  </div>
+                </div>
                 <div class="calendars">
                     <calendar-ranges
                             @clickRange="clickRange"
                             :ranges="ranges"
                     ></calendar-ranges>
-
-                    <div class="drp-calendar left">
-                        <div class="daterangepicker_input hidden-xs" v-if="false">
+                    <div class="calendars-container d-flex flex-wrap">
+                      <div class="calendars-wrapper d-flex">
+                        <div class="drp-calendar left">
+                          <div class="daterangepicker_input hidden-xs" v-if="false">
                             <input class="input-mini form-control" type="text" name="daterangepicker_start"
-                                   :value="startText"/>
+                            :value="startText"/>
                             <i class="fa fa-calendar glyphicon glyphicon-calendar"></i>
-                        </div>
-                        <div class="calendar-table">
-                            <calendar :monthDate="monthDate"
-                                      :locale="locale"
-                                      :start="start" :end="end"
-                                      :minDate="min" :maxDate="max"
-                                      @nextMonth="nextMonth" @prevMonth="prevMonth"
-                                      @dateClick="dateClick" @hoverDate="hoverDate"
+                          </div>
+                          <div class="calendar-table">
+                            <calendar
+                            :monthDate="monthDate"
+                            :locale="locale"
+                            :start="start" :end="end"
+                            :minDate="min" :maxDate="max"
+                            :showDropdowns="true"
+                            @nextMonth="nextMonth" @prevMonth="prevMonth"
+                            @dateClick="dateClick" @hoverDate="hoverDate"
                             ></calendar>
+                          </div>
+                          <div class="slider-wrapper d-flex" v-if="hours">
+                            <span>Hours</span>
+                            <slider
+                            ref="HoursSliderLeft"
+                            v-model="leftHour"
+                            @drag="leftHoursSliderDrag"
+                            :max="23"
+                            :min="0"
+                            />
+                          </div>
+                          <div class="slider-wrapper d-flex" v-if="hours">
+                            <span>Minute</span>
+                            <slider
+                            ref="MinutesSliderLeft"
+                            v-model="leftMinute"
+                            @drag="leftMinutesSliderDrag"
+                            :max="59"
+                            :min="0"
+                            />
+                          </div>
                         </div>
-                    </div>
-
-                    <div class="drp-calendar right hidden-xs">
-                        <div class="daterangepicker_input" v-if="false">
+                        <div class="drp-calendar right hidden-xs">
+                          <div class="daterangepicker_input" v-if="false">
                             <input class="input-mini form-control" type="text" name="daterangepicker_end"
-                                   :value="endText"/>
+                            :value="endText"/>
                             <i class="fa fa-calendar glyphicon glyphicon-calendar"></i>
-                        </div>
-                        <div class="calendar-table">
-                            <calendar :monthDate="nextMonthDate"
-                                      :locale="locale"
-                                      :start="start" :end="end"
-                                      :minDate="min" :maxDate="max"
-                                      @nextMonth="nextMonth" @prevMonth="prevMonth"
-                                      @dateClick="dateClick" @hoverDate="hoverDate"
+                          </div>
+                          <div class="calendar-table">
+                            <calendar
+                            :monthDate="nextMonthDate"
+                            :locale="locale"
+                            :start="start" :end="end"
+                            :minDate="min" :maxDate="max"
+                            :showDropdowns="true"
+                            @nextMonth="nextMonth" @prevMonth="prevMonth"
+                            @dateClick="dateClick" @hoverDate="hoverDate"
                             ></calendar>
+                          </div>
+                          <div class="slider-wrapper d-flex" v-if="hours">
+                            <span>Hours</span>
+                            <slider
+                            ref="HoursSliderRight"
+                            v-model="rightHour"
+                            @drag="rightHoursSliderDrag"
+                            :max="23"
+                            :min="0"
+                            />
+                          </div>
+                          <div class="slider-wrapper d-flex" v-if="hours">
+                            <span>Hours</span>
+                            <slider
+                            ref="MinutesSliderRight"
+                            v-model="rightMinute"
+                            @drag="rightMinutesSliderDrag"
+                            :max="59"
+                            :min="0"
+                            />
+                          </div>
                         </div>
+                      </div>
+                      <div class="footer-wrapper w-100 d-flex justify-content-between">
+                        <div class="inputs-wrapper d-flex justify-content-center" v-if="footerInputs">
+                          <div class="input-wrapper d-flex">
+                            <span class="icon-wrapper d-block">
+                              <i :class="footerInputIconClassName">adsf</i>
+                            </span>
+                            <input type="text" class="input" v-model="startInputText">
+                          </div>
+                          <span class="separator">
+                            <i class="ocpx-icon-minus"></i>
+                          </span>
+                          <div class="input-wrapper d-flex">
+                            <span class="icon-wrapper d-block">
+                              <i :class="footerInputIconClassName">adsf</i>
+                            </span>
+                            <input type="text" class="input" v-model="endInputText">
+                          </div>
+                        </div>
+                        <div class="drp-buttons d-flex">
+                          <button
+                          class="applyBtn btn btn-sm btn-success"
+                          :disabled="in_selection"
+                          type="button"
+                          @click="clickedApply"
+                          >{{locale.applyLabel}}</button>
+                          <button
+                          class="cancelBtn btn btn-sm btn-default"
+                          type="button"
+                          @click="open=false"
+                          >{{locale.cancelLabel}}</button>
+                        </div>
+                      </div>
                     </div>
                 </div>
 
-                <div class="drp-buttons">
-                    <button
-                            class="applyBtn btn btn-sm btn-success"
-                            :disabled="in_selection"
-                            type="button"
-                            @click="clickedApply"
-                    >{{locale.applyLabel}}</button>
-                    <button
-                            class="cancelBtn btn btn-sm btn-default"
-                            type="button"
-                            @click="open=false"
-                    >{{locale.cancelLabel}}</button>
-                </div>
 
             </div>
         </transition>
@@ -85,13 +157,44 @@
   import CalendarRanges from './CalendarRanges'
   import {nextMonth, prevMonth} from './util'
   import {mixin as clickaway} from 'vue-clickaway'
+  import Slider from 'vue-slider-component'
 
   export default {
-    components: {Calendar, CalendarRanges},
+    components: {Calendar, CalendarRanges, Slider},
     mixins: [clickaway],
     props: {
       minDate: [String, Object],
       maxDate: [String, Object],
+      footerInputs: {
+        type: Boolean,
+        default(){
+          return false;
+        }
+      },
+      headline: {
+        type: Boolean,
+        default(){
+          return false;
+        }
+      },
+      headlineTitle: {
+        type: String,
+        default(){
+          return '';
+        }
+      },
+      footerInputIconClassName: {
+        type: String,
+        default(){
+          return '';
+        }
+      },
+      hours: {
+        type: Boolean,
+        default(){
+          return false;
+        }
+      },
       localeData: {
         type: Object,
         default () {
@@ -100,12 +203,12 @@
       },
       startDate: {
         default () {
-          return new Date()
+          return moment()
         }
       },
       endDate: {
         default () {
-          return new Date()
+          return moment()
         }
       },
       ranges: {
@@ -129,14 +232,14 @@
     data () {
       let default_locale = {
         direction: 'ltr',
-        format: moment.localeData().longDateFormat('L'),
+        format: 'DD-MM-YYYY hh:mm',//moment.localeData().longDateFormat('L'),
         separator: ' - ',
-        applyLabel: 'Apply',
+        applyLabel: 'Set range',
         cancelLabel: 'Cancel',
         weekLabel: 'W',
-        customRangeLabel: 'Custom Range',
         daysOfWeek: moment.weekdaysMin(),
-        monthNames: moment.monthsShort(),
+        monthNames: moment.months(),
+        years: [],
         firstDay: moment.localeData().firstDayOfWeek()
       }
 
@@ -148,7 +251,10 @@
       data.end = new Date(this.endDate)
       data.in_selection = false
       data.open = false
-
+      data.leftHour = 0
+      data.leftMinute = 0
+      data.rightHour = 0
+      data.rightMinute = 0
       // update day names order to firstDay
       if (data.locale.firstDay !== 0) {
         let iterator = data.locale.firstDay
@@ -210,19 +316,87 @@
         this.end = new Date(value[1])
         this.monthDate = new Date(value[0])
         this.clickedApply()
-      }
+      },
+      leftHoursSliderDrag(value){
+        let {
+          updateHours,
+          leftHour,
+          start,
+          end
+        } = this
+
+        if (leftHour < 24 && leftHour > 0) {
+          start.setHours(leftHour)
+          this.$emit('update', {
+            startDate: start,
+            endDate: end
+          })
+        }
+      },
+      leftMinutesSliderDrag(){
+        let {
+          updateMinutes,
+          leftMinute,
+          start,
+          end
+        } = this
+
+        if (leftMinute < 60 && leftMinute > 0) {
+          start.setMinutes(leftMinute)
+          this.$emit('update', {
+            startDate: start,
+            endDate: end
+          })
+        }
+      },
+      rightHoursSliderDrag(){
+        let {
+          updateHours,
+          rightHour,
+          start,
+          end
+        } = this
+
+        if (rightHour < 24 && rightHour > 0) {
+          end.setHours(rightHour)
+          this.$emit('update', {
+            startDate: start,
+            endDate: end
+          })
+        }
+      },
+      rightMinutesSliderDrag(){
+        let {
+          updateMinutes,
+          rightMinute,
+          start,
+          end
+        } = this
+
+        if (rightMinute < 60 && rightMinute > 0) {
+          end.setMinutes(rightMinute)
+          this.$emit('update', {
+            startDate: start,
+            endDate: end
+          })
+        }
+      },
     },
     computed: {
       nextMonthDate () {
         return nextMonth(this.monthDate)
       },
       startText () {
-        // return this.start.toLocaleDateString()
         return moment(this.start).format(this.locale.format)
       },
+      startInputText () {
+        return moment(this.start).format('DD-MM-YYYY hh:mm')
+      },
+      endInputText () {
+        return moment(this.end).format('DD-MM-YYYY hh:mm')
+      },
       endText () {
-        // return new Date(this.end).toLocaleDateString()
-        return moment(new Date(this.end)).format(this.locale.format)
+        return moment(this.end).format(this.locale.format)
       },
       min () {
         return this.minDate ? new Date(this.minDate) : null
@@ -268,6 +442,16 @@
 
     .calendars {
         display: flex;
+        .footer-wrapper{
+          padding: 8px;
+          .inputs-wrapper{
+            flex: 1;
+          }
+        }
+        .drp-buttons{
+          padding: 0;
+          border-top: none;
+        }
     }
 
     div.daterangepicker.opensleft {
@@ -305,5 +489,7 @@
         transform: translateX(10px);
         opacity: 0;
     }
-
+    /deep/ .vue-slider-component.vue-slider-horizontal{
+      flex: 1;
+    }
 </style>

@@ -3,7 +3,30 @@
         <thead>
         <tr>
             <th class="prev available" @click="$emit('prevMonth')"><i :class="[arrowLeftClass]"></i></th>
-            <th colspan="5" class="month">{{monthName}} {{year}}</th>
+            <th colspan="5" class="month">
+              <select class="dp-dropdown" name="months" v-if="this.showDropdowns">
+                <option
+                  v-for="(monthItem, index) in locale.monthNames"
+                  value="month"
+                  :key="index"
+                  :selected="monthItem === monthName"
+                >
+                  {{monthItem}}
+                </option>
+              </select>
+              <span v-else>{{monthName}}</span>
+              <select class="dp-dropdown" name="years" v-if="this.showDropdowns">
+                <option
+                  v-for="(yearItem, index) in locale.years"
+                  value="year"
+                  :key="index"
+                  :selected="yearItem === year  "
+                >
+                  {{yearItem}}
+                </option>
+              </select>
+              <span v-else>{{year}}</span>
+            </th>
             <th class="next available" @click="$emit('nextMonth')"><i :class="[arrowRightClass]"></i></th>
         </tr>
         </thead>
@@ -35,7 +58,7 @@
 
   export default {
     name: 'calendar',
-    props: ['monthDate', 'locale', 'start', 'end', 'minDate', 'maxDate'],
+    props: ['monthDate', 'locale', 'start', 'end', 'minDate', 'maxDate', 'showDropdowns'],
     methods: {
       dayClass (date) {
         let dt = new Date(date)
@@ -116,11 +139,25 @@
       dateNum (value) {
         return value.date()
       }
+    },
+    mounted(){
+      if (this.showDropdowns && this.locale.years.length === 0) {
+        let years = moment(this.maxDate).diff(this.minDate, 'years');
+        if (years === 0) {
+          this.locale.years.push(moment().format('YYYY'));
+        }
+        for(let year = 0; year < years; year++){
+          this.locale.years.push(this.minDate.getFullYear() + year);
+        }
+      }
     }
   }
 </script>
 
 <style scoped lang="scss">
+    .dp-dropdown{
+      margin-right: 18px;
+    }
     td.today {
         font-weight: bold;
     }

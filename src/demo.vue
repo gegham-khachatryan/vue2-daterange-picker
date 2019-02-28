@@ -77,6 +77,11 @@
                                 :endDate="endDate"
                                 @update="updateValues"
                                 :locale-data="{ firstDay: 1, format: 'DD-MM-YYYY' }"
+                                :hours="true"
+                                footerInputIconClassName="ocpx ocpx-icon-agenda"
+                                :footerInputs="true"
+                                :headline="true"
+                                headlineTitle="Validity start / end"
                                 :minDate="minDate" :maxDate="maxDate"
                         >
                             <div slot="input" slot-scope="picker">
@@ -92,31 +97,34 @@
 
 <script>
   import DateRangePicker from './components/DateRangePicker'
+  import moment from 'moment'
 
   export default {
     components: {DateRangePicker},
     name: 'DateRangePickerDemo',
     filters: {
       date (value) {
-        let options = {year: 'numeric', month: 'long', day: 'numeric'};
-        return Intl.DateTimeFormat('en-US', options).format(value)
+        return moment(value).format('DD.MM.YYYY hh:mm')
+        // let options = {year: 'numeric', month: 'long', day: 'numeric'};
+        // return Intl.DateTimeFormat('en-US', options).format(value)
       }
     },
     data () {
       //                    :locale-data="{ daysOfWeek: [ 'Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб' ] }"
       return {
         opens: 'center',
-        startDate: '2017-09-19',
-        endDate: '2017-10-09',
-        minDate: '2017-09-02',
-        maxDate: '2017-10-02',
+        startDate: '2017-09-19 00:00:00',
+        endDate: '2017-10-09 00:00:00',
+        minDate: '2010-09-02 00:00:00',
+        maxDate: '2030-10-02 00:00:00',
       }
     },
     methods: {
       updateValues (values) {
-        console.log(values)
-        this.startDate = values.startDate.toISOString().slice(0, 10)
-        this.endDate = values.endDate.toISOString().slice(0, 10)
+        const {startDate, endDate} = values
+        console.log(startDate);
+        // this.startDate = moment(startDate.toISOString()).format('YYYY-MM-DD hh:mm:ss')
+        // this.endDate = moment(endDate.toISOString()).format('YYYY-MM-DD hh:mm:ss')
       }
     }
   }

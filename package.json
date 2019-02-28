@@ -28,7 +28,8 @@
     "js-beautify": "^1.7.5",
     "moment": "^2.20.1",
     "vue": "^2.5.13",
-    "vue-clickaway": "^2.1.0"
+    "vue-clickaway": "^2.1.0",
+    "vue-slider-component": "^2.8.13"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.5",
