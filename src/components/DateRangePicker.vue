@@ -20,7 +20,7 @@
                     v-on-clickaway="clickAway"
             >
                 <div class="headline d-flex justify-content-between" v-if="headline">
-                  <h5 class="title">{{title}}</h5>
+                  <h5 class="title">{{headlineTitle}}</h5>
                   <div class="icons-wrapper">
                     <i class="ocpx-icon-boxycross"></i>
                     <i class="ocpx-icon-minus"></i>
@@ -116,7 +116,7 @@
                             <span class="icon-wrapper d-block">
                               <i :class="footerInputIconClassName">adsf</i>
                             </span>
-                            <input type="text" class="input" v-model="startInputText">
+                            <input type="text" class="input" v-model="startInputText" readonly>
                           </div>
                           <span class="separator">
                             <i class="ocpx-icon-minus"></i>
@@ -125,7 +125,7 @@
                             <span class="icon-wrapper d-block">
                               <i :class="footerInputIconClassName">adsf</i>
                             </span>
-                            <input type="text" class="input" v-model="endInputText">
+                            <input type="text" class="input" v-model="endInputText" readonly>
                           </div>
                         </div>
                         <div class="drp-buttons d-flex">
@@ -389,8 +389,8 @@
       startText () {
         return moment(this.start).format(this.locale.format)
       },
-      startInputText () {
-        return moment(this.start).format('DD-MM-YYYY hh:mm')
+      startInputText() {
+        return moment(this.start).format('DD-MM-YYYY hh:mm');
       },
       endInputText () {
         return moment(this.end).format('DD-MM-YYYY hh:mm')
