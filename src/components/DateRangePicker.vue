@@ -111,7 +111,7 @@
                         </div>
                       </div>
                       <div class="footer-wrapper w-100 d-flex justify-content-between">
-                        <div class="inputs-wrapper d-flex justify-content-center" v-if="footerInputs">
+                        <div class="inputs-wrapper d-flex justify-content-center align-items-center" v-if="footerInputs">
                           <div class="input-wrapper d-flex">
                             <span class="icon-wrapper d-flex align-items-center justify-content-center">
                               <i :class="footerInputIconClassName"></i>
@@ -433,22 +433,7 @@
     }
 
     .daterangepicker{
-        display: block;
         width: auto;
-    }
-
-    .calendars {
-        display: flex;
-        .footer-wrapper{
-          padding: 8px;
-          .inputs-wrapper{
-            flex: 1;
-          }
-        }
-        .drp-buttons{
-          padding: 0;
-          border-top: none;
-        }
     }
 
     div.daterangepicker.opensleft {
