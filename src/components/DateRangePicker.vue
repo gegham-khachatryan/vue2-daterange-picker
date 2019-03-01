@@ -51,7 +51,7 @@
                             ></calendar>
                           </div>
                           <div class="slider-wrapper d-flex" v-if="hours">
-                            <span>Hours</span>
+                            <span>Hour</span>
                             <slider
                             ref="HoursSliderLeft"
                             v-model="leftHour"
@@ -89,7 +89,7 @@
                             ></calendar>
                           </div>
                           <div class="slider-wrapper d-flex" v-if="hours">
-                            <span>Hours</span>
+                            <span>Hour</span>
                             <slider
                             ref="HoursSliderRight"
                             v-model="rightHour"
@@ -99,7 +99,7 @@
                             />
                           </div>
                           <div class="slider-wrapper d-flex" v-if="hours">
-                            <span>Hours</span>
+                            <span>Minute</span>
                             <slider
                             ref="MinutesSliderRight"
                             v-model="rightMinute"
