@@ -114,7 +114,7 @@
                         <div class="inputs-wrapper d-flex justify-content-center" v-if="footerInputs">
                           <div class="input-wrapper d-flex">
                             <span class="icon-wrapper d-block">
-                              <i :class="footerInputIconClassName">adsf</i>
+                              <i :class="footerInputIconClassName"></i>
                             </span>
                             <input type="text" class="input" v-model="startInputText" readonly>
                           </div>
@@ -123,7 +123,7 @@
                           </span>
                           <div class="input-wrapper d-flex">
                             <span class="icon-wrapper d-block">
-                              <i :class="footerInputIconClassName">adsf</i>
+                              <i :class="footerInputIconClassName"></i>
                             </span>
                             <input type="text" class="input" v-model="endInputText" readonly>
                           </div>
