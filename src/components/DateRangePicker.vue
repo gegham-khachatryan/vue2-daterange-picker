@@ -136,7 +136,8 @@
                           @click="clickedApply"
                           >
                           <i class="ocpx ocpx-icon-save"></i>
-                          {{locale.applyLabel}}</button>
+                          <span>{{locale.applyLabel}}</span>
+                          </button>
                           <!-- <button
                           class="cancelBtn btn btn-sm btn-default"
                           type="button"
