@@ -14,7 +14,7 @@
         </div>
         <transition name="slide-fade" mode="out-in">
             <div
-                    class="daterangepicker dropdown-menu ltr show-ranges"
+                    class="daterangepicker dropdown-menu ltr show-ranges d-block"
                     :class="pickerStyles()"
                     v-if="open"
                     v-on-clickaway="clickAway"
@@ -431,13 +431,8 @@
     }
 
     .daterangepicker{
-        flex-direction: column;
-        display: flex;
+        display: block;
         width: auto;
-
-        &.show-calendar {
-            display: block;
-        }
     }
 
     .calendars {
