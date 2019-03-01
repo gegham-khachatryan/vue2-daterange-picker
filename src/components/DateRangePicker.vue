@@ -22,8 +22,8 @@
                 <div class="headline d-flex justify-content-between" v-if="headline">
                   <h5 class="title">{{headlineTitle}}</h5>
                   <div class="icons-wrapper d-flex align-items-center">
-                    <i class="ocpx-icon-boxycross"></i>
-                    <i class="ocpx-icon-minus"></i>
+                    <i class="ocpx-icon-boxycross" @click="open=false"></i>
+                    <i class="ocpx-icon-minus" @click="open=false"></i>
                   </div>
                 </div>
                 <div class="calendars d-flex flex-wrap">
@@ -134,12 +134,14 @@
                           :disabled="in_selection"
                           type="button"
                           @click="clickedApply"
-                          >{{locale.applyLabel}}</button>
-                          <button
+                          >
+                          <i class="ocpx ocpx-icon-save"></i>
+                          {{locale.applyLabel}}</button>
+                          <!-- <button
                           class="cancelBtn btn btn-sm btn-default"
                           type="button"
                           @click="open=false"
-                          >{{locale.cancelLabel}}</button>
+                          >{{locale.cancelLabel}}</button> -->
                         </div>
                       </div>
                     </div>
