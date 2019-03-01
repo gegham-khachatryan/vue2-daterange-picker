@@ -26,7 +26,7 @@
                     <i class="ocpx-icon-minus"></i>
                   </div>
                 </div>
-                <div class="calendars">
+                <div class="calendars d-flex">
                     <calendar-ranges
                             @clickRange="clickRange"
                             :ranges="ranges"
@@ -50,8 +50,8 @@
                             @dateClick="dateClick" @hoverDate="hoverDate"
                             ></calendar>
                           </div>
-                          <div class="slider-wrapper d-flex" v-if="hours">
-                            <span>Hour</span>
+                          <div class="slider-wrapper d-flex align-items-center" v-if="hours">
+                            <span class="d-block">Hour</span>
                             <slider
                             ref="HoursSliderLeft"
                             v-model="leftHour"
@@ -60,8 +60,8 @@
                             :min="0"
                             />
                           </div>
-                          <div class="slider-wrapper d-flex" v-if="hours">
-                            <span>Minute</span>
+                          <div class="slider-wrapper d-flex align-items-center" v-if="hours">
+                            <span class="d-block">Minute</span>
                             <slider
                             ref="MinutesSliderLeft"
                             v-model="leftMinute"
@@ -88,8 +88,8 @@
                             @dateClick="dateClick" @hoverDate="hoverDate"
                             ></calendar>
                           </div>
-                          <div class="slider-wrapper d-flex" v-if="hours">
-                            <span>Hour</span>
+                          <div class="slider-wrapper d-flex align-items-center" v-if="hours">
+                            <span class="d-block">Hour</span>
                             <slider
                             ref="HoursSliderRight"
                             v-model="rightHour"
@@ -98,8 +98,8 @@
                             :min="0"
                             />
                           </div>
-                          <div class="slider-wrapper d-flex" v-if="hours">
-                            <span>Minute</span>
+                          <div class="slider-wrapper d-flex align-items-center" v-if="hours">
+                            <span class="d-block">Minute</span>
                             <slider
                             ref="MinutesSliderRight"
                             v-model="rightMinute"
@@ -113,7 +113,7 @@
                       <div class="footer-wrapper w-100 d-flex justify-content-between">
                         <div class="inputs-wrapper d-flex justify-content-center" v-if="footerInputs">
                           <div class="input-wrapper d-flex">
-                            <span class="icon-wrapper d-block">
+                            <span class="icon-wrapper d-flex align-items-center justify-content-center">
                               <i :class="footerInputIconClassName"></i>
                             </span>
                             <input type="text" class="input" v-model="startInputText" readonly>
@@ -122,7 +122,7 @@
                             <i class="ocpx-icon-minus"></i>
                           </span>
                           <div class="input-wrapper d-flex">
-                            <span class="icon-wrapper d-block">
+                            <span class="icon-wrapper d-flex align-items-center justify-content-center">
                               <i :class="footerInputIconClassName"></i>
                             </span>
                             <input type="text" class="input" v-model="endInputText" readonly>
