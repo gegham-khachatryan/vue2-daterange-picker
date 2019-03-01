@@ -26,7 +26,7 @@
                     <i class="ocpx-icon-minus" @click="open=false"></i>
                   </div>
                 </div>
-                <div class="calendars d-flex flex-wrap">
+                <div class="calendars d-flex">
                     <calendar-ranges
                             @clickRange="clickRange"
                             :ranges="ranges"
