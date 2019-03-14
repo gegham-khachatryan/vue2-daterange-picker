@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="calendars d-flex">
-          <calendar-ranges @clickRange="clickRange" :ranges="ranges" v-if="!singleDatePicker"></calendar-ranges>
+          <calendar-ranges @clickRange="clickRange" :ranges="ranges"></calendar-ranges>
           <div class="calendars-container d-flex flex-wrap">
             <div class="calendars-wrapper d-flex">
               <div class="drp-calendar left">
@@ -71,7 +71,7 @@
                   />
                 </div>
               </div>
-              <div class="drp-calendar right hidden-xs" v-if="!singleDatePicker">
+              <div class="drp-calendar right hidden-xs">
                 <div class="daterangepicker_input" v-if="false">
                   <input
                     class="input-mini form-control"
@@ -129,10 +129,10 @@
                   </span>
                   <input type="text" class="input" v-model="startInputText" readonly>
                 </div>
-                <span class="separator" v-if="!singleDatePicker">
+                <span class="separator">
                   <i class="ocpx-icon-minus"></i>
                 </span>
-                <div class="input-wrapper d-flex" v-if="!singleDatePicker">
+                <div class="input-wrapper d-flex">
                   <span class="icon-wrapper d-flex align-items-center justify-content-center">
                     <i :class="footerInputIconClassName"></i>
                   </span>
@@ -256,12 +256,6 @@ export default {
     opens: {
       type: String,
       default: "center"
-    },
-    singleDatePicker: {
-      type: Boolean,
-      default() {
-        return false;
-      }
     }
   },
   data() {
@@ -300,12 +294,6 @@ export default {
     }
     return data;
   },
-  mounted() {
-    if (this.singleDatePicker) {
-      this.end = this.start;
-      this.locale.applyLabel = "Set date";
-    }
-  },
   methods: {
     nextMonth() {
       this.monthDate = nextMonth(this.monthDate);
@@ -314,22 +302,17 @@ export default {
       this.monthDate = prevMonth(this.monthDate);
     },
     dateClick(value) {
-      if (!this.singleDatePicker) {
-        if (this.in_selection) {
-          this.in_selection = false;
-          this.end = new Date(value);
-          if (this.end < this.start) {
-            this.in_selection = true;
-            this.start = new Date(value);
-          }
-        } else {
+      if (this.in_selection) {
+        this.in_selection = false;
+        this.end = new Date(value);
+        if (this.end < this.start) {
           this.in_selection = true;
           this.start = new Date(value);
-          this.end = new Date(value);
         }
       } else {
+        this.in_selection = true;
         this.start = new Date(value);
-        this.end = this.start;
+        this.end = new Date(value);
       }
     },
     hoverDate(value) {
