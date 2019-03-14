@@ -4,8 +4,12 @@
       <img src="./assets/logo.png">
 
       <h1>Vue Date Range Picker</h1>
-      <p>Based on
-        <a href="http://www.daterangepicker.com" target="_blank">http://www.daterangepicker.com</a>
+      <p>
+        Based on
+        <a
+          href="http://www.daterangepicker.com"
+          target="_blank"
+        >http://www.daterangepicker.com</a>
       </p>
 
       <p>
@@ -92,23 +96,25 @@
           <div class="form-group">
             <label>Select range:</label>
             <date-range-picker
+              footerInputIconClassName="ocpx ocpx-icon-agenda"
+              :class="{singlePicker: singleDatePicker}"
+              :headlineTitle="headlineTitle"
               :opens="opens"
               :startDate="startDate"
               :endDate="endDate"
-              @update="updateValues"
               :locale-data="{ firstDay: 1, format: 'DD-MM-YYYY' }"
               :hours="true"
-              footerInputIconClassName="ocpx ocpx-icon-agenda"
               :footerInputs="true"
               :headline="true"
-              headlineTitle="Validity start / end"
               :minDate="minDate"
               :maxDate="maxDate"
+              :singleDatePicker="singleDatePicker"
+              @update="updateValues"
             >
-              <div
-                slot="input"
-                slot-scope="picker"
-              >{{ picker.startDate | date }} - {{ picker.endDate | date }}</div>
+              <div slot="input" slot-scope="picker">
+                <span>{{ picker.startDate | date }}</span>
+                <span v-if="!singleDatePicker">{{' - ' + picker.endDate | date}}</span>
+              </div>
             </date-range-picker>
           </div>
         </div>
@@ -138,8 +144,15 @@ export default {
       startDate: "2017-09-19 00:00:00",
       endDate: "2017-10-09 00:00:00",
       minDate: "2010-09-02 00:00:00",
-      maxDate: "2030-10-02 00:00:00"
+      maxDate: "2030-10-02 00:00:00",
+      singleDatePicker: true,
+      headlineTitle: "Validity start / end"
     };
+  },
+  mounted() {
+    if (this.singleDatePicker) {
+      this.headlineTitle = "Validity date";
+    }
   },
   methods: {
     updateValues(values) {

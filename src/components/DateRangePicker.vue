@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="calendars d-flex">
-          <calendar-ranges @clickRange="clickRange" :ranges="ranges"></calendar-ranges>
+          <calendar-ranges @clickRange="clickRange" :ranges="ranges" v-if="!singleDatePicker"></calendar-ranges>
           <div class="calendars-container d-flex flex-wrap">
             <div class="calendars-wrapper d-flex">
               <div class="drp-calendar left">
@@ -71,7 +71,7 @@
                   />
                 </div>
               </div>
-              <div class="drp-calendar right hidden-xs">
+              <div class="drp-calendar right hidden-xs" v-if="!singleDatePicker">
                 <div class="daterangepicker_input" v-if="false">
                   <input
                     class="input-mini form-control"
@@ -129,10 +129,10 @@
                   </span>
                   <input type="text" class="input" v-model="startInputText" readonly>
                 </div>
-                <span class="separator">
+                <span class="separator" v-if="!singleDatePicker">
                   <i class="ocpx-icon-minus"></i>
                 </span>
-                <div class="input-wrapper d-flex">
+                <div class="input-wrapper d-flex" v-if="!singleDatePicker">
                   <span class="icon-wrapper d-flex align-items-center justify-content-center">
                     <i :class="footerInputIconClassName"></i>
                   </span>
@@ -170,7 +170,6 @@ import CalendarRanges from "./CalendarRanges";
 import { nextMonth, prevMonth } from "./util";
 import { mixin as clickaway } from "vue-clickaway";
 import Slider from "vue-slider-component";
-
 export default {
   components: { Calendar, CalendarRanges, Slider },
   mixins: [clickaway],
@@ -256,6 +255,12 @@ export default {
     opens: {
       type: String,
       default: "center"
+    },
+    singleDatePicker: {
+      type: Boolean,
+      default() {
+        return false;
+      }
     }
   },
   data() {
@@ -271,10 +276,8 @@ export default {
       years: [],
       firstDay: moment.localeData().firstDayOfWeek()
     };
-
     // let data = { locale: _locale }
     let data = { locale: { ...default_locale, ...this.localeData } };
-
     data.monthDate = new Date(this.startDate);
     data.start = new Date(this.startDate);
     data.end = new Date(this.endDate);
@@ -294,6 +297,12 @@ export default {
     }
     return data;
   },
+  mounted() {
+    if (this.singleDatePicker) {
+      this.end = this.start;
+      this.locale.applyLabel = "Set date";
+    }
+  },
   methods: {
     nextMonth() {
       this.monthDate = nextMonth(this.monthDate);
@@ -302,17 +311,22 @@ export default {
       this.monthDate = prevMonth(this.monthDate);
     },
     dateClick(value) {
-      if (this.in_selection) {
-        this.in_selection = false;
-        this.end = new Date(value);
-        if (this.end < this.start) {
+      if (!this.singleDatePicker) {
+        if (this.in_selection) {
+          this.in_selection = false;
+          this.end = new Date(value);
+          if (this.end < this.start) {
+            this.in_selection = true;
+            this.start = new Date(value);
+          }
+        } else {
           this.in_selection = true;
           this.start = new Date(value);
+          this.end = new Date(value);
         }
       } else {
-        this.in_selection = true;
         this.start = new Date(value);
-        this.end = new Date(value);
+        this.end = this.start;
       }
     },
     hoverDate(value) {
@@ -347,7 +361,6 @@ export default {
     },
     leftHoursSliderDrag(value) {
       let { updateHours, leftHour, start, end } = this;
-
       if (leftHour < 24 && leftHour > 0) {
         start.setHours(leftHour);
         this.$emit("update", {
@@ -358,7 +371,6 @@ export default {
     },
     leftMinutesSliderDrag() {
       let { updateMinutes, leftMinute, start, end } = this;
-
       if (leftMinute < 60 && leftMinute > 0) {
         start.setMinutes(leftMinute);
         this.$emit("update", {
@@ -369,7 +381,6 @@ export default {
     },
     rightHoursSliderDrag() {
       let { updateHours, rightHour, start, end } = this;
-
       if (rightHour < 24 && rightHour > 0) {
         end.setHours(rightHour);
         this.$emit("update", {
@@ -380,7 +391,6 @@ export default {
     },
     rightMinutesSliderDrag() {
       let { updateMinutes, rightMinute, start, end } = this;
-
       if (rightMinute < 60 && rightMinute > 0) {
         end.setMinutes(rightMinute);
         this.$emit("update", {
@@ -436,40 +446,33 @@ export default {
   border: 1px solid #ccc;
   width: 100%;
 }
-
 .daterangepicker {
   width: auto;
 }
-
 div.daterangepicker.opensleft {
   top: 35px;
   right: 10px;
   left: auto;
 }
-
 div.daterangepicker.openscenter {
   top: 35px;
   right: auto;
   left: 50%;
   transform: translate(-50%, 0);
 }
-
 div.daterangepicker.opensright {
   top: 35px;
   left: 10px;
   right: auto;
 }
-
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .slide-fade-enter-active {
   transition: all 0.2s ease;
 }
-
 .slide-fade-leave-active {
   transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
 }
-
 .slide-fade-enter, .slide-fade-leave-to
         /* .slide-fade-leave-active for <2.1.8 */
  {
