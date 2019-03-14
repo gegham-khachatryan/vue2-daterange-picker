@@ -145,7 +145,7 @@ export default {
       endDate: "2017-10-09 00:00:00",
       minDate: "2010-09-02 00:00:00",
       maxDate: "2030-10-02 00:00:00",
-      singleDatePicker: true,
+      singleDatePicker: false,
       headlineTitle: "Validity start / end"
     };
   },
