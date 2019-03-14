@@ -304,7 +304,7 @@ export default {
   mounted() {
     if (this.singleDatePicker) {
       this.end = this.start;
-      this.applyLabel = "Set date";
+      this.locale.applyLabel = "Set date";
     }
   },
   methods: {

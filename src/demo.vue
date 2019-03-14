@@ -96,19 +96,20 @@
           <div class="form-group">
             <label>Select range:</label>
             <date-range-picker
+              footerInputIconClassName="ocpx ocpx-icon-agenda"
+              :class="{singlePicker: singleDatePicker}"
+              :headlineTitle="headlineTitle"
               :opens="opens"
               :startDate="startDate"
               :endDate="endDate"
-              @update="updateValues"
               :locale-data="{ firstDay: 1, format: 'DD-MM-YYYY' }"
               :hours="true"
-              footerInputIconClassName="ocpx ocpx-icon-agenda"
               :footerInputs="true"
               :headline="true"
-              headlineTitle="Validity start / end"
               :minDate="minDate"
               :maxDate="maxDate"
               :singleDatePicker="singleDatePicker"
+              @update="updateValues"
             >
               <div slot="input" slot-scope="picker">
                 <span>{{ picker.startDate | date }}</span>
@@ -144,8 +145,14 @@ export default {
       endDate: "2017-10-09 00:00:00",
       minDate: "2010-09-02 00:00:00",
       maxDate: "2030-10-02 00:00:00",
-      singleDatePicker: false
+      singleDatePicker: true,
+      headlineTitle: "Validity start / end"
     };
+  },
+  mounted() {
+    if (this.singleDatePicker) {
+      this.headlineTitle = "Validity date";
+    }
   },
   methods: {
     updateValues(values) {
