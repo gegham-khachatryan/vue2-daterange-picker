@@ -3,8 +3,7 @@
     <div class="form-control" @click="togglePicker">
       <slot name="input" :startDate="start" :endDate="end" :ranges="ranges">
         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-        <span>{{startText}}</span>
-        <!-- <span v-if="!singleDatePicker">{{` - ${endText}`}}</span> -->
+        <span>{{startText}} - {{endText}}</span>
         <b class="caret"></b>
       </slot>
     </div>
