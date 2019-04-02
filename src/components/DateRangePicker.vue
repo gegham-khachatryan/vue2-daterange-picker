@@ -1,6 +1,6 @@
 <template>
-  <div style="position: relative; display: inline-block;">
-    <div @click="togglePicker">
+  <div style="position: relative; display: inline-block; width: 100%;">
+    <div class="w-100" @click="togglePicker">
       <slot name="input" :startDate="start" :endDate="end" :ranges="ranges">
         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
         <span>{{startText}} - {{endText}}</span>
