@@ -37,13 +37,16 @@
                 </div>
                 <div class="calendar-table">
                   <calendar
-                    :monthDate="monthDate"
+                    :date="start"
                     :locale="locale"
+                    :isStartDate="true"
                     :start="start"
                     :end="end"
                     :minDate="min"
                     :maxDate="max"
                     :showDropdowns="true"
+                    @changeMonth="changeMonth"
+                    @changeYear="changeYear"
                     @nextMonth="nextMonth"
                     @prevMonth="prevMonth"
                     @dateClick="dateClick"
@@ -83,13 +86,16 @@
                 </div>
                 <div class="calendar-table">
                   <calendar
-                    :monthDate="nextMonthDate"
+                    :date="end"
                     :locale="locale"
+                    :startDate="false"
                     :start="start"
                     :end="end"
                     :minDate="min"
                     :maxDate="max"
                     :showDropdowns="true"
+                    @changeMonth="changeMonth"
+                    @changeYear="changeYear"
                     @nextMonth="nextMonth"
                     @prevMonth="prevMonth"
                     @dateClick="dateClick"
@@ -306,6 +312,49 @@ export default {
     }
   },
   methods: {
+    changeMonth(month, isStartDate) {
+      if (isStartDate) {
+        this.start = this.setMonth(month, this.start);
+        this.monthDate = this.start;
+      } else {
+        this.end = this.setMonth(month, this.end);
+        // this.monthDate = this.end;
+      }
+    },
+    changeYear(year, isStartDate) {
+      if (isStartDate) {
+        this.start = this.setYear(year, this.start);
+        this.monthDate = this.start;
+      } else {
+        this.end = this.setYear(year, this.end);
+        // this.monthDate = this.end;
+      }
+    },
+    setYear(newDate, date) {
+      return new Date(
+        moment(date)
+          .set(
+            "year",
+            moment()
+              .year(newDate)
+              .format("YYYY")
+          )
+          .format("MM.DD.YYYY HH:mm")
+      );
+    },
+    setMonth(newDate, date) {
+      return new Date(
+        moment(date)
+          .set(
+            "month",
+            moment()
+              .month(newDate)
+              .format("MM")
+          )
+          .subtract(1, "month")
+          .format("MM.DD.YYYY HH:mm")
+      );
+    },
     nextMonth() {
       this.monthDate = nextMonth(this.monthDate);
     },

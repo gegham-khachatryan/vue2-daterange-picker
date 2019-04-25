@@ -6,19 +6,19 @@
           <i :class="[arrowLeftClass]"></i>
         </th>
         <th colspan="5" class="month">
-          <select class="dp-dropdown" name="months" v-if="this.showDropdowns">
+          <select class="dp-dropdown" name="months" v-if="this.showDropdowns" @change="changeMonth">
             <option
               v-for="(monthItem, index) in locale.monthNames"
-              value="month"
+              :value="monthItem"
               :key="index"
               :selected="monthItem === monthName"
             >{{monthItem}}</option>
           </select>
           <span v-else>{{monthName}}</span>
-          <select class="dp-dropdown" name="years" v-if="this.showDropdowns">
+          <select class="dp-dropdown" name="years" v-if="this.showDropdowns" @change="changeYear">
             <option
               v-for="(yearItem, index) in locale.years"
-              value="year"
+              :value="yearItem"
               :key="index"
               :selected="yearItem === year  "
             >{{yearItem}}</option>
@@ -54,15 +54,27 @@ import moment from "moment";
 export default {
   name: "calendar",
   props: [
-    "monthDate",
+    "date",
     "locale",
+    "isStartDate",
     "start",
     "end",
     "minDate",
     "maxDate",
     "showDropdowns"
   ],
+  // data() {
+  //   return {
+  //     month:
+  //   }
+  // },
   methods: {
+    changeMonth(e) {
+      this.$emit("changeMonth", e.target.value, this.isStartDate);
+    },
+    changeYear(e) {
+      this.$emit("changeYear", e.target.value, this.isStartDate);
+    },
     dayClass(date) {
       let dt = new Date(date);
       dt.setHours(0, 0, 0, 0);
@@ -102,17 +114,17 @@ export default {
       return "ocpx-icon-navforward";
     },
     monthName() {
-      return this.locale.monthNames[this.monthDate.getMonth()];
+      return this.locale.monthNames[this.date.getMonth()];
     },
     year() {
-      return this.monthDate.getFullYear();
+      return this.date.getFullYear();
     },
     month() {
-      return this.monthDate.getMonth();
+      return this.date.getMonth();
     },
     calendar() {
       let month = this.month;
-      let year = this.monthDate.getFullYear();
+      let year = this.date.getFullYear();
       let daysInMonth = new Date(year, month, 0).getDate();
       let firstDay = new Date(year, month, 1);
       let lastDay = new Date(year, month, daysInMonth);
