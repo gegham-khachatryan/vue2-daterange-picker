@@ -102,19 +102,19 @@
               :opens="opens"
               :startDate="startDate"
               :endDate="endDate"
-              :locale-data="{ firstDay: 1, format: 'DD-MM-YYYY' }"
+              :locale-data="{ firstDay: 1, format: 'DD.MM.YYYY HH:mm' }"
               :hours="true"
               :footerInputs="true"
               :headline="true"
               :minDate="minDate"
               :maxDate="maxDate"
               :singleDatePicker="singleDatePicker"
-              @update="updateValues"
+              @updateDatePicker="updateDatePicker"
             >
-              <div slot="input" slot-scope="picker">
+              <!-- <div slot="input" slot-scope="picker">
                 <span>{{ picker.startDate | date }}</span>
                 <span v-if="!singleDatePicker">{{' - ' + picker.endDate | date}}</span>
-              </div>
+              </div>-->
             </date-range-picker>
           </div>
         </div>
@@ -132,7 +132,7 @@ export default {
   name: "DateRangePickerDemo",
   filters: {
     date(value) {
-      return moment(value).format("DD.MM.YYYY hh:mm");
+      return moment(value).format("DD.MM.YYYY HH:mm");
       // let options = {year: 'numeric', month: 'long', day: 'numeric'};
       // return Intl.DateTimeFormat('en-US', options).format(value)
     }
@@ -141,10 +141,16 @@ export default {
     //                    :locale-data="{ daysOfWeek: [ 'Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб' ] }"
     return {
       opens: "center",
-      startDate: "2017-09-19 00:00:00",
-      endDate: "2017-10-09 00:00:00",
-      minDate: "2010-09-02 00:00:00",
-      maxDate: "2030-10-02 00:00:00",
+      startDate: moment().format("MM.DD.YYYY HH:mm"),
+      endDate: moment()
+        .add(1, "month")
+        .format("MM.DD.YYYY HH:mm"),
+      minDate: moment()
+        .subtract(10, "years")
+        .format("MM.DD.YYYY HH:mm"),
+      maxDate: moment()
+        .add(10, "years")
+        .format("MM.DD.YYYY HH:mm"),
       singleDatePicker: false,
       headlineTitle: "Validity start / end"
     };
@@ -155,11 +161,12 @@ export default {
     }
   },
   methods: {
-    updateValues(values) {
-      const { startDate, endDate } = values;
-      console.log(startDate);
-      // this.startDate = moment(startDate.toISOString()).format('YYYY-MM-DD hh:mm:ss')
-      // this.endDate = moment(endDate.toISOString()).format('YYYY-MM-DD hh:mm:ss')
+    updateDatePicker(dates) {
+      const { startDate, endDate } = dates;
+      this.startDate = moment(startDate.toISOString()).format(
+        "MM.DD.YYYY HH:mm"
+      );
+      this.endDate = moment(endDate.toISOString()).format("MM.DD.YYYY HH:mm");
     }
   }
 };

@@ -266,7 +266,7 @@ export default {
   data() {
     let default_locale = {
       direction: "ltr",
-      format: "DD-MM-YYYY hh:mm", //moment.localeData().longDateFormat('L'),
+      format: "MM.DD.YYYY HH:mm", //moment.localeData().longDateFormat('L'),
       separator: " - ",
       applyLabel: "Set range",
       cancelLabel: "Cancel",
@@ -278,15 +278,17 @@ export default {
     };
     // let data = { locale: _locale }
     let data = { locale: { ...default_locale, ...this.localeData } };
+    let startTime = moment(this.startDate, default_locale.format);
+    let endTime = moment(this.endDate, default_locale.format);
     data.monthDate = new Date(this.startDate);
     data.start = new Date(this.startDate);
     data.end = new Date(this.endDate);
     data.in_selection = false;
     data.open = false;
-    data.leftHour = 0;
-    data.leftMinute = 0;
-    data.rightHour = 0;
-    data.rightMinute = 0;
+    data.leftHour = startTime.format("HH");
+    data.leftMinute = startTime.format("mm");
+    data.rightHour = endTime.format("HH");
+    data.rightMinute = endTime.format("mm");
     // update day names order to firstDay
     if (data.locale.firstDay !== 0) {
       let iterator = data.locale.firstDay;
@@ -346,7 +348,10 @@ export default {
     },
     clickedApply() {
       this.open = false;
-      this.$emit("update", { startDate: this.start, endDate: this.end });
+      this.$emit("updateDatePicker", {
+        startDate: this.start,
+        endDate: this.end
+      });
     },
     clickAway() {
       if (this.open) {
@@ -363,7 +368,7 @@ export default {
       let { updateHours, leftHour, start, end } = this;
       if (leftHour < 24 && leftHour > 0) {
         start.setHours(leftHour);
-        this.$emit("update", {
+        this.$emit("updateDatePicker", {
           startDate: start,
           endDate: end
         });
@@ -373,7 +378,7 @@ export default {
       let { updateMinutes, leftMinute, start, end } = this;
       if (leftMinute < 60 && leftMinute > 0) {
         start.setMinutes(leftMinute);
-        this.$emit("update", {
+        this.$emit("updateDatePicker", {
           startDate: start,
           endDate: end
         });
@@ -383,7 +388,7 @@ export default {
       let { updateHours, rightHour, start, end } = this;
       if (rightHour < 24 && rightHour > 0) {
         end.setHours(rightHour);
-        this.$emit("update", {
+        this.$emit("updateDatePicker", {
           startDate: start,
           endDate: end
         });
@@ -393,7 +398,7 @@ export default {
       let { updateMinutes, rightMinute, start, end } = this;
       if (rightMinute < 60 && rightMinute > 0) {
         end.setMinutes(rightMinute);
-        this.$emit("update", {
+        this.$emit("updateDatePicker", {
           startDate: start,
           endDate: end
         });
@@ -408,10 +413,10 @@ export default {
       return moment(this.start).format(this.locale.format);
     },
     startInputText() {
-      return moment(this.start).format("DD-MM-YYYY hh:mm");
+      return moment(this.start).format(this.locale.format);
     },
     endInputText() {
-      return moment(this.end).format("DD-MM-YYYY hh:mm");
+      return moment(this.end).format(this.locale.format);
     },
     endText() {
       return moment(this.end).format(this.locale.format);
