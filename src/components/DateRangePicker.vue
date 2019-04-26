@@ -37,7 +37,7 @@
                 </div>
                 <div class="calendar-table">
                   <calendar
-                    :date="start"
+                    :monthDate="monthDate"
                     :locale="locale"
                     :isStartDate="true"
                     :start="start"
@@ -86,7 +86,7 @@
                 </div>
                 <div class="calendar-table">
                   <calendar
-                    :date="end"
+                    :monthDate="nextMonthDate"
                     :locale="locale"
                     :startDate="false"
                     :start="start"

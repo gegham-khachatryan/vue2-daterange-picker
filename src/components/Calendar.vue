@@ -54,7 +54,7 @@ import moment from "moment";
 export default {
   name: "calendar",
   props: [
-    "date",
+    "monthDate",
     "locale",
     "isStartDate",
     "start",
@@ -114,17 +114,17 @@ export default {
       return "ocpx-icon-navforward";
     },
     monthName() {
-      return this.locale.monthNames[this.date.getMonth()];
+      return this.locale.monthNames[this.monthDate.getMonth()];
     },
     year() {
-      return this.date.getFullYear();
+      return this.monthDate.getFullYear();
     },
     month() {
-      return this.date.getMonth();
+      return this.monthDate.getMonth();
     },
     calendar() {
       let month = this.month;
-      let year = this.date.getFullYear();
+      let year = this.monthDate.getFullYear();
       let daysInMonth = new Date(year, month, 0).getDate();
       let firstDay = new Date(year, month, 1);
       let lastDay = new Date(year, month, daysInMonth);
