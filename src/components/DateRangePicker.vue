@@ -8,166 +8,167 @@
       </slot>
     </div>
     <transition name="slide-fade" mode="out-in">
-      <div
-        class="daterangepicker dropdown-menu ltr show-ranges d-block"
-        :class="pickerStyles()"
-        v-if="open"
-        v-on-clickaway="clickAway"
-        id="rangePickerCalendar"
-      >
-        <div class="headline d-flex justify-content-between" v-if="headline">
-          <h5 class="title">{{headlineTitle}}</h5>
-          <div class="icons-wrapper">
-            <i class="ocpx-icon-logout" @click="$emit('makeFullScreen')"></i>
-            <i class="ocpx-icon-replay" @click="$emit('reset')"></i>
-            <i class="ocpx-icon-boxycross" @click="open = false"></i>
-            <i class="ocpx-icon-minus" @click="$emit('minimize')"></i>
-          </div>
-        </div>
-        <div class="calendars d-flex">
-          <calendar-ranges @clickRange="clickRange" :ranges="ranges" v-if="!singleDatePicker"></calendar-ranges>
-          <div class="calendars-container d-flex flex-wrap">
-            <div class="calendars-wrapper d-flex">
-              <div class="drp-calendar left">
-                <div class="daterangepicker_input hidden-xs" v-if="false">
-                  <input
-                    class="input-mini form-control"
-                    type="text"
-                    name="daterangepicker_start"
-                    :value="startText"
-                  >
-                  <i class="fa fa-calendar glyphicon glyphicon-calendar"></i>
-                </div>
-                <div class="calendar-table">
-                  <calendar
-                    :monthDate="monthDate"
-                    :locale="locale"
-                    :isStartDate="true"
-                    :start="start"
-                    :end="end"
-                    :minDate="min"
-                    :maxDate="max"
-                    :showDropdowns="true"
-                    @changeMonth="changeMonth"
-                    @changeYear="changeYear"
-                    @nextMonth="nextMonth"
-                    @prevMonth="prevMonth"
-                    @dateClick="dateClick"
-                    @hoverDate="hoverDate"
-                  ></calendar>
-                </div>
-                <div class="slider-wrapper d-flex align-items-center" v-if="hours">
-                  <span class="d-block">Hour</span>
-                  <slider
-                    ref="HoursSliderLeft"
-                    v-model="leftHour"
-                    @drag="leftHoursSliderDrag"
-                    :max="23"
-                    :min="0"
-                  />
-                </div>
-                <div class="slider-wrapper d-flex align-items-center" v-if="hours">
-                  <span class="d-block">Minute</span>
-                  <slider
-                    ref="MinutesSliderLeft"
-                    v-model="leftMinute"
-                    @drag="leftMinutesSliderDrag"
-                    :max="59"
-                    :min="0"
-                  />
-                </div>
-              </div>
-              <div class="drp-calendar right hidden-xs" v-if="!singleDatePicker">
-                <div class="daterangepicker_input" v-if="false">
-                  <input
-                    class="input-mini form-control"
-                    type="text"
-                    name="daterangepicker_end"
-                    :value="endText"
-                  >
-                  <i class="fa fa-calendar glyphicon glyphicon-calendar"></i>
-                </div>
-                <div class="calendar-table">
-                  <calendar
-                    :monthDate="nextMonthDate"
-                    :locale="locale"
-                    :startDate="false"
-                    :start="start"
-                    :end="end"
-                    :minDate="min"
-                    :maxDate="max"
-                    :showDropdowns="true"
-                    @changeMonth="changeMonth"
-                    @changeYear="changeYear"
-                    @nextMonth="nextMonth"
-                    @prevMonth="prevMonth"
-                    @dateClick="dateClick"
-                    @hoverDate="hoverDate"
-                  ></calendar>
-                </div>
-                <div class="slider-wrapper d-flex align-items-center" v-if="hours">
-                  <span class="d-block">Hour</span>
-                  <slider
-                    ref="HoursSliderRight"
-                    v-model="rightHour"
-                    @drag="rightHoursSliderDrag"
-                    :max="23"
-                    :min="0"
-                  />
-                </div>
-                <div class="slider-wrapper d-flex align-items-center" v-if="hours">
-                  <span class="d-block">Minute</span>
-                  <slider
-                    ref="MinutesSliderRight"
-                    v-model="rightMinute"
-                    @drag="rightMinutesSliderDrag"
-                    :max="59"
-                    :min="0"
-                  />
-                </div>
-              </div>
+      <VueDragResize :isActive="true" :isResizable="false">
+        <div
+          class="daterangepicker dropdown-menu ltr show-ranges d-block"
+          :class="pickerStyles()"
+          v-if="open"
+          v-on-clickaway="clickAway"
+        >
+          <div class="headline d-flex justify-content-between" v-if="headline">
+            <h5 class="title">{{headlineTitle}}</h5>
+            <div class="icons-wrapper">
+              <i class="ocpx-icon-logout" @click="$emit('makeFullScreen')"></i>
+              <i class="ocpx-icon-replay" @click="$emit('reset')"></i>
+              <i class="ocpx-icon-boxycross" @click="open = false"></i>
+              <i class="ocpx-icon-minus" @click="$emit('minimize')"></i>
             </div>
-            <div class="footer-wrapper w-100 d-flex justify-content-between">
-              <div
-                class="inputs-wrapper d-flex justify-content-center align-items-center"
-                v-if="footerInputs"
-              >
-                <div class="input-wrapper d-flex">
-                  <span class="icon-wrapper d-flex align-items-center justify-content-center">
-                    <i :class="footerInputIconClassName"></i>
-                  </span>
-                  <input type="text" class="input" v-model="startInputText" readonly>
+          </div>
+          <div class="calendars d-flex">
+            <calendar-ranges @clickRange="clickRange" :ranges="ranges" v-if="!singleDatePicker"></calendar-ranges>
+            <div class="calendars-container d-flex flex-wrap">
+              <div class="calendars-wrapper d-flex">
+                <div class="drp-calendar left">
+                  <div class="daterangepicker_input hidden-xs" v-if="false">
+                    <input
+                      class="input-mini form-control"
+                      type="text"
+                      name="daterangepicker_start"
+                      :value="startText"
+                    >
+                    <i class="fa fa-calendar glyphicon glyphicon-calendar"></i>
+                  </div>
+                  <div class="calendar-table">
+                    <calendar
+                      :monthDate="monthDate"
+                      :locale="locale"
+                      :isStartDate="true"
+                      :start="start"
+                      :end="end"
+                      :minDate="min"
+                      :maxDate="max"
+                      :showDropdowns="true"
+                      @changeMonth="changeMonth"
+                      @changeYear="changeYear"
+                      @nextMonth="nextMonth"
+                      @prevMonth="prevMonth"
+                      @dateClick="dateClick"
+                      @hoverDate="hoverDate"
+                    ></calendar>
+                  </div>
+                  <div class="slider-wrapper d-flex align-items-center" v-if="hours">
+                    <span class="d-block">Hour</span>
+                    <slider
+                      ref="HoursSliderLeft"
+                      v-model="leftHour"
+                      @drag="leftHoursSliderDrag"
+                      :max="23"
+                      :min="0"
+                    />
+                  </div>
+                  <div class="slider-wrapper d-flex align-items-center" v-if="hours">
+                    <span class="d-block">Minute</span>
+                    <slider
+                      ref="MinutesSliderLeft"
+                      v-model="leftMinute"
+                      @drag="leftMinutesSliderDrag"
+                      :max="59"
+                      :min="0"
+                    />
+                  </div>
                 </div>
-                <span class="separator" v-if="!singleDatePicker">
-                  <i class="ocpx-icon-minus"></i>
-                </span>
-                <div class="input-wrapper d-flex" v-if="!singleDatePicker">
-                  <span class="icon-wrapper d-flex align-items-center justify-content-center">
-                    <i :class="footerInputIconClassName"></i>
-                  </span>
-                  <input type="text" class="input" v-model="endInputText" readonly>
+                <div class="drp-calendar right hidden-xs" v-if="!singleDatePicker">
+                  <div class="daterangepicker_input" v-if="false">
+                    <input
+                      class="input-mini form-control"
+                      type="text"
+                      name="daterangepicker_end"
+                      :value="endText"
+                    >
+                    <i class="fa fa-calendar glyphicon glyphicon-calendar"></i>
+                  </div>
+                  <div class="calendar-table">
+                    <calendar
+                      :monthDate="nextMonthDate"
+                      :locale="locale"
+                      :startDate="false"
+                      :start="start"
+                      :end="end"
+                      :minDate="min"
+                      :maxDate="max"
+                      :showDropdowns="true"
+                      @changeMonth="changeMonth"
+                      @changeYear="changeYear"
+                      @nextMonth="nextMonth"
+                      @prevMonth="prevMonth"
+                      @dateClick="dateClick"
+                      @hoverDate="hoverDate"
+                    ></calendar>
+                  </div>
+                  <div class="slider-wrapper d-flex align-items-center" v-if="hours">
+                    <span class="d-block">Hour</span>
+                    <slider
+                      ref="HoursSliderRight"
+                      v-model="rightHour"
+                      @drag="rightHoursSliderDrag"
+                      :max="23"
+                      :min="0"
+                    />
+                  </div>
+                  <div class="slider-wrapper d-flex align-items-center" v-if="hours">
+                    <span class="d-block">Minute</span>
+                    <slider
+                      ref="MinutesSliderRight"
+                      v-model="rightMinute"
+                      @drag="rightMinutesSliderDrag"
+                      :max="59"
+                      :min="0"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="drp-buttons d-flex">
-                <button
-                  class="applyBtn btn btn-sm btn-success"
-                  :disabled="in_selection"
-                  type="button"
-                  @click="clickedApply"
+              <div class="footer-wrapper w-100 d-flex justify-content-between">
+                <div
+                  class="inputs-wrapper d-flex justify-content-center align-items-center"
+                  v-if="footerInputs"
                 >
-                  <i class="ocpx ocpx-icon-save"></i>
-                  <span>{{locale.applyLabel}}</span>
-                </button>
-                <!-- <button
+                  <div class="input-wrapper d-flex">
+                    <span class="icon-wrapper d-flex align-items-center justify-content-center">
+                      <i :class="footerInputIconClassName"></i>
+                    </span>
+                    <input type="text" class="input" v-model="startInputText" readonly>
+                  </div>
+                  <span class="separator" v-if="!singleDatePicker">
+                    <i class="ocpx-icon-minus"></i>
+                  </span>
+                  <div class="input-wrapper d-flex" v-if="!singleDatePicker">
+                    <span class="icon-wrapper d-flex align-items-center justify-content-center">
+                      <i :class="footerInputIconClassName"></i>
+                    </span>
+                    <input type="text" class="input" v-model="endInputText" readonly>
+                  </div>
+                </div>
+                <div class="drp-buttons d-flex">
+                  <button
+                    class="applyBtn btn btn-sm btn-success"
+                    :disabled="in_selection"
+                    type="button"
+                    @click="clickedApply"
+                  >
+                    <i class="ocpx ocpx-icon-save"></i>
+                    <span>{{locale.applyLabel}}</span>
+                  </button>
+                  <!-- <button
                           class="cancelBtn btn btn-sm btn-default"
                           type="button"
                           @click="open=false"
-                >{{locale.cancelLabel}}</button>-->
+                  >{{locale.cancelLabel}}</button>-->
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </VueDragResize>
     </transition>
   </div>
 </template>
@@ -179,8 +180,10 @@ import CalendarRanges from "./CalendarRanges";
 import { nextMonth, prevMonth } from "./util";
 import { mixin as clickaway } from "vue-clickaway";
 import Slider from "vue-slider-component";
+import VueDragResize from "vue-drag-resize";
+
 export default {
-  components: { Calendar, CalendarRanges, Slider },
+  components: { Calendar, CalendarRanges, Slider, VueDragResize },
   mixins: [clickaway],
   props: {
     minDate: [String, Object],
