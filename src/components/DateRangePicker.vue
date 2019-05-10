@@ -24,11 +24,8 @@
             <h5 class="title">{{headlineTitle}}</h5>
             <div class="icons-wrapper">
               <i class="ocpx-icon-logout" @click="$emit('makeFullScreen')"></i>
-              <i class="ocpx-icon-replay" @click="$emit('reset')"></i>
-              <i
-                class="ocpx-icon-boxycross"
-                @click="(e) => {e.preventDefault();e.stopPropagation();open = false}"
-              >a</i>
+              <i class="ocpx-icon-replay" @click="reset"></i>
+              <i class="ocpx-icon-boxycross" @click="open = false"></i>
               <i class="ocpx-icon-minus" @click="$emit('minimize')"></i>
             </div>
           </div>
@@ -472,6 +469,11 @@ export default {
       setTimeout(() => {
         this.open = true;
       });
+    },
+    reset() {
+      this.start = new Date(this.startDate);
+      this.end = new Date(this.endDate);
+      this.$emit("reset");
     }
   },
   computed: {
