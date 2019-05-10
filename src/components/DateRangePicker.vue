@@ -11,7 +11,7 @@
       <VueDraggableResizable
         :active="true"
         :resizable="false"
-        dragCancel=".calendars-wrapper.d-flex"
+        dragCancel=".calendars-wrapper.d-flex, .icons-wrapper"
         @dragstop="dragstop"
       >
         <div
@@ -25,7 +25,10 @@
             <div class="icons-wrapper">
               <i class="ocpx-icon-logout" @click="$emit('makeFullScreen')"></i>
               <i class="ocpx-icon-replay" @click="$emit('reset')"></i>
-              <i class="ocpx-icon-boxycross" @click="open = false"></i>
+              <i
+                class="ocpx-icon-boxycross"
+                @click="(e) => {e.preventDefault();e.stopPropagation();open = false}"
+              >a</i>
               <i class="ocpx-icon-minus" @click="$emit('minimize')"></i>
             </div>
           </div>
