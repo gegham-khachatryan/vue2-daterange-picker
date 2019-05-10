@@ -8,7 +8,12 @@
       </slot>
     </div>
     <transition name="slide-fade" mode="out-in">
-      <VueDragResize :isActive="true" :isResizable="false">
+      <VueDraggableResizable
+        :active="true"
+        :resizable="false"
+        dragCancel=".calendars-wrapper.d-flex"
+        @dragstop="dragstop"
+      >
         <div
           class="daterangepicker dropdown-menu ltr show-ranges d-block"
           :class="pickerStyles()"
@@ -168,7 +173,7 @@
             </div>
           </div>
         </div>
-      </VueDragResize>
+      </VueDraggableResizable>
     </transition>
   </div>
 </template>
@@ -180,10 +185,10 @@ import CalendarRanges from "./CalendarRanges";
 import { nextMonth, prevMonth } from "./util";
 import { mixin as clickaway } from "vue-clickaway";
 import Slider from "vue-slider-component";
-import VueDragResize from "vue-drag-resize";
+import VueDraggableResizable from "vue-draggable-resizable";
 
 export default {
-  components: { Calendar, CalendarRanges, Slider, VueDragResize },
+  components: { Calendar, CalendarRanges, Slider, VueDraggableResizable },
   mixins: [clickaway],
   props: {
     minDate: [String, Object],
@@ -458,6 +463,12 @@ export default {
           endDate: end
         });
       }
+    },
+    dragstop(a, e) {
+      this.open = false;
+      setTimeout(() => {
+        this.open = true;
+      });
     }
   },
   computed: {
