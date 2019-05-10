@@ -13,12 +13,15 @@
         :class="pickerStyles()"
         v-if="open"
         v-on-clickaway="clickAway"
+        id="rangePickerCalendar"
       >
         <div class="headline d-flex justify-content-between" v-if="headline">
           <h5 class="title">{{headlineTitle}}</h5>
           <div class="icons-wrapper">
-            <i class="ocpx-icon-boxycross"></i>
-            <i class="ocpx-icon-minus"></i>
+            <i class="ocpx-icon-logout" @click="$emit('makeFullScreen')"></i>
+            <i class="ocpx-icon-replay" @click="$emit('reset')"></i>
+            <i class="ocpx-icon-boxycross" @click="open = false"></i>
+            <i class="ocpx-icon-minus" @click="$emit('minimize')"></i>
           </div>
         </div>
         <div class="calendars d-flex">
