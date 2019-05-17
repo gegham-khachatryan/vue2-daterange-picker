@@ -11,7 +11,7 @@
       <VueDraggableResizable
         :active="true"
         :resizable="false"
-        dragCancel=".calendars-wrapper.d-flex, .icons-wrapper"
+        dragCancel=".calendars-wrapper.d-flex, .icons-wrapper, .drp-buttons"
         @dragstop="dragstop"
       >
         <div
