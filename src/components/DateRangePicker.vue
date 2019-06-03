@@ -525,22 +525,6 @@ export default {
 .daterangepicker {
   width: auto;
 }
-div.daterangepicker.opensleft {
-  top: 35px;
-  right: 10px;
-  left: auto;
-}
-div.daterangepicker.openscenter {
-  top: 35px;
-  right: auto;
-  left: 50%;
-  transform: translate(-50%, 0);
-}
-div.daterangepicker.opensright {
-  top: 35px;
-  left: 10px;
-  right: auto;
-}
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .slide-fade-enter-active {
