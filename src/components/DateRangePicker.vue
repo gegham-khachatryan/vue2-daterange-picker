@@ -11,7 +11,7 @@
       <VueDraggableResizable
         :active="true"
         :resizable="false"
-        dragCancel=".calendars-wrapper.d-flex, .icons-wrapper, .drp-buttons"
+        dragCancel=".calendars-wrapper.d-flex, .icons-wrapper, .drp-buttons, .ranges"
         @dragstop="dragstop"
       >
         <div
@@ -419,7 +419,6 @@ export default {
       this.start = new Date(value[0]);
       this.end = new Date(value[1]);
       this.monthDate = new Date(value[0]);
-      this.clickedApply();
     },
     leftHoursSliderDrag(value) {
       let { updateHours, leftHour, start, end } = this;
