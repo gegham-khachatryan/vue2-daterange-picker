@@ -23,10 +23,7 @@
           <div class="headline d-flex justify-content-between" v-if="headline">
             <h5 class="title">{{headlineTitle}}</h5>
             <div class="icons-wrapper">
-              <i class="ocpx-icon-logout" @click="$emit('makeFullScreen')"></i>
-              <i class="ocpx-icon-replay" @click="reset"></i>
               <i class="ocpx-icon-boxycross" @click="open = false"></i>
-              <i class="ocpx-icon-minus" @click="$emit('minimize')"></i>
             </div>
           </div>
           <div class="calendars d-flex">
