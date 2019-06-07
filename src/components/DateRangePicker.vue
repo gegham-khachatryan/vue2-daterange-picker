@@ -373,6 +373,8 @@ export default {
       if (!this.singleDatePicker) {
         if (this.in_selection) {
           this.in_selection = false;
+          value.hours(this.rightHour);
+          value.minutes(this.rightMinute);
           this.end = new Date(value);
           if (this.end < this.start) {
             this.in_selection = true;
@@ -380,10 +382,16 @@ export default {
           }
         } else {
           this.in_selection = true;
+          value.hours(this.leftHour);
+          value.minutes(this.leftMinute);
           this.start = new Date(value);
           this.end = new Date(value);
+          this.end.setHours(this.rightHour);
+          this.end.setMinutes(this.rightMinute);
         }
       } else {
+        value.hours(this.leftHour);
+        value.minutes(this.leftMinute);
         this.start = new Date(value);
         this.end = this.start;
       }
@@ -416,13 +424,18 @@ export default {
       }
     },
     clickRange(value) {
+      value[0].hours(this.leftHour);
+      value[0].minutes(this.leftMinute);
+      value[1].hours(this.rightHour);
+      value[1].minutes(this.rightMinute);
+
       this.start = new Date(value[0]);
       this.end = new Date(value[1]);
       this.monthDate = new Date(value[0]);
     },
     leftHoursSliderDrag(value) {
       let { updateHours, leftHour, start, end } = this;
-      if (leftHour < 24 && leftHour > 0) {
+      if (leftHour < 24 && leftHour >= 0) {
         start.setHours(leftHour);
         this.$emit("updateDatePicker", {
           startDate: start,
@@ -432,7 +445,7 @@ export default {
     },
     leftMinutesSliderDrag() {
       let { updateMinutes, leftMinute, start, end } = this;
-      if (leftMinute < 60 && leftMinute > 0) {
+      if (leftMinute < 60 && leftMinute >= 0) {
         start.setMinutes(leftMinute);
         this.$emit("updateDatePicker", {
           startDate: start,
@@ -442,7 +455,7 @@ export default {
     },
     rightHoursSliderDrag() {
       let { updateHours, rightHour, start, end } = this;
-      if (rightHour < 24 && rightHour > 0) {
+      if (rightHour < 24 && rightHour >= 0) {
         end.setHours(rightHour);
         this.$emit("updateDatePicker", {
           startDate: start,
@@ -452,7 +465,7 @@ export default {
     },
     rightMinutesSliderDrag() {
       let { updateMinutes, rightMinute, start, end } = this;
-      if (rightMinute < 60 && rightMinute > 0) {
+      if (rightMinute < 60 && rightMinute >= 0) {
         end.setMinutes(rightMinute);
         this.$emit("updateDatePicker", {
           startDate: start,
