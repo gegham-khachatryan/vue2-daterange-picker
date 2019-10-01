@@ -2,11 +2,11 @@
   <table class="table-condensed">
     <thead>
       <tr>
-        <th class="prev available" @click="$emit('prevMonth')">
+        <th class="prev available" @click="$emit('prevMonth', isStartDate)">
           <i :class="[arrowLeftClass]"></i>
         </th>
         <th colspan="5" class="month">
-          <select class="dp-dropdown" name="months" v-if="this.showDropdowns" @change="changeMonth">
+          <select class="dp-dropdown" name="months" v-if="showDropdowns" @change="changeMonth">
             <option
               v-for="(monthItem, index) in locale.monthNames"
               :value="monthItem"
@@ -15,17 +15,17 @@
             >{{monthItem}}</option>
           </select>
           <span v-else>{{monthName}}</span>
-          <select class="dp-dropdown" name="years" v-if="this.showDropdowns" @change="changeYear">
+          <select class="dp-dropdown" name="years" v-if="showDropdowns" @change="changeYear">
             <option
               v-for="(yearItem, index) in locale.years"
               :value="yearItem"
               :key="index"
-              :selected="yearItem === year  "
+              :selected="yearItem === year"
             >{{yearItem}}</option>
           </select>
           <span v-else>{{year}}</span>
         </th>
-        <th class="next available" @click="$emit('nextMonth')">
+        <th class="next available" @click="$emit('nextMonth', isStartDate)">
           <i :class="[arrowRightClass]"></i>
         </th>
       </tr>

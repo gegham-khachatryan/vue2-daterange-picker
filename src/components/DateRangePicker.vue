@@ -11,13 +11,16 @@
       <VueDraggableResizable
         :active="true"
         :resizable="false"
-        dragCancel=".calendars-wrapper.d-flex, .icons-wrapper, .drp-buttons, .ranges"
+        :w="1"
+        :h="1"
+        ref="daterangepicker"
+        dragCancel=".calendars-wrapper.d-flex, .icons-wrapper, .drp-buttons, .ranges, .footer-wrapper"
         @dragstop="dragstop"
       >
         <div
+          v-if="open"
           class="daterangepicker dropdown-menu ltr show-ranges d-block"
           :class="pickerStyles()"
-          v-if="open"
           v-on-clickaway="clickAway"
         >
           <div class="headline d-flex justify-content-between" v-if="headline">
@@ -37,7 +40,7 @@
                       type="text"
                       name="daterangepicker_start"
                       :value="startText"
-                    >
+                    />
                     <i class="fa fa-calendar glyphicon glyphicon-calendar"></i>
                   </div>
                   <div class="calendar-table">
@@ -86,12 +89,12 @@
                       type="text"
                       name="daterangepicker_end"
                       :value="endText"
-                    >
+                    />
                     <i class="fa fa-calendar glyphicon glyphicon-calendar"></i>
                   </div>
                   <div class="calendar-table">
                     <calendar
-                      :monthDate="nextMonthDate"
+                      :monthDate="endMonthDate"
                       :locale="locale"
                       :startDate="false"
                       :start="start"
@@ -138,7 +141,7 @@
                     <span class="icon-wrapper d-flex align-items-center justify-content-center">
                       <i :class="footerInputIconClassName"></i>
                     </span>
-                    <input type="text" class="input" v-model="startInputText" readonly>
+                    <input type="text" class="input" v-model="startInputText" readonly />
                   </div>
                   <span class="separator" v-if="!singleDatePicker">
                     <i class="ocpx-icon-minus"></i>
@@ -147,7 +150,7 @@
                     <span class="icon-wrapper d-flex align-items-center justify-content-center">
                       <i :class="footerInputIconClassName"></i>
                     </span>
-                    <input type="text" class="input" v-model="endInputText" readonly>
+                    <input type="text" class="input" v-model="endInputText" readonly />
                   </div>
                 </div>
                 <div class="drp-buttons d-flex">
@@ -295,6 +298,7 @@ export default {
     let startTime = moment(this.startDate, default_locale.format);
     let endTime = moment(this.endDate, default_locale.format);
     data.monthDate = new Date(this.startDate);
+    data.endMonthDate = new Date(this.endDate);
     data.start = new Date(this.startDate);
     data.end = new Date(this.endDate);
     data.in_selection = false;
@@ -314,6 +318,10 @@ export default {
     return data;
   },
   mounted() {
+    const el = this.$refs.daterangepicker.$el;
+    const parentCords = el.parentNode.getBoundingClientRect();
+
+    document.body.appendChild(el);
     if (this.singleDatePicker) {
       this.end = this.start;
       this.locale.applyLabel = "Set date";
@@ -326,7 +334,7 @@ export default {
         this.monthDate = this.start;
       } else {
         this.end = this.setMonth(month, this.end);
-        // this.monthDate = this.end;
+        this.endMonthDate = this.end;
       }
     },
     changeYear(year, isStartDate) {
@@ -335,7 +343,7 @@ export default {
         this.monthDate = this.start;
       } else {
         this.end = this.setYear(year, this.end);
-        // this.monthDate = this.end;
+        this.endMonthDate = this.end;
       }
     },
     setYear(newDate, date) {
@@ -363,11 +371,19 @@ export default {
           .format("MM.DD.YYYY HH:mm")
       );
     },
-    nextMonth() {
-      this.monthDate = nextMonth(this.monthDate);
+    nextMonth(isStart) {
+      if (isStart) {
+        this.monthDate = nextMonth(this.monthDate);
+      } else {
+        this.endMonthDate = nextMonth(this.endMonthDate);
+      }
     },
-    prevMonth() {
-      this.monthDate = prevMonth(this.monthDate);
+    prevMonth(isStart) {
+      if (isStart) {
+        this.monthDate = prevMonth(this.monthDate);
+      } else {
+        this.endMonthDate = prevMonth(this.endMonthDate);
+      }
     },
     dateClick(value) {
       if (!this.singleDatePicker) {
@@ -521,6 +537,9 @@ export default {
 
 <style lang="scss">
 @import "../assets/daterangepicker.css";
+.body {
+  position: relative;
+}
 </style>
 
 <style lang="scss" scoped>
