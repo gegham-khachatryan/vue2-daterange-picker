@@ -318,13 +318,18 @@ export default {
     return data;
   },
   mounted() {
-    const el = this.$refs.daterangepicker.$el;
-    const parentCords = el.parentNode.getBoundingClientRect();
-
-    document.body.appendChild(el);
     if (this.singleDatePicker) {
       this.end = this.start;
       this.locale.applyLabel = "Set date";
+    } else {
+      const el = this.$refs.daterangepicker.$el;
+      document.body.appendChild(el);
+    }
+  },
+  beforeDestroy() {
+    if (!this.singleDatePicker) {
+      const el = this.$refs.daterangepicker.$el;
+      document.body.removeChild(el);
     }
   },
   methods: {
