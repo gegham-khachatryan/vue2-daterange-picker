@@ -448,6 +448,7 @@ export default {
       this.start = new Date(value[0]);
       this.end = new Date(value[1]);
       this.monthDate = new Date(value[0]);
+      this.endMonthDate = new Date(value[1]);
     },
     leftHoursSliderDrag(value) {
       let { updateHours, leftHour, start, end } = this;
