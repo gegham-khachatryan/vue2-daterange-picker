@@ -3,7 +3,7 @@
     <div class="w-100" @click="togglePicker">
       <slot name="input" :startDate="start" :endDate="end" :ranges="ranges">
         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-        <span>{{startText}} - {{endText}}</span>
+        <span>{{ startText }} - {{ endText }}</span>
         <b class="caret"></b>
       </slot>
     </div>
@@ -24,13 +24,17 @@
           v-on-clickaway="clickAway"
         >
           <div class="headline d-flex justify-content-between" v-if="headline">
-            <h5 class="title">{{headlineTitle}}</h5>
+            <h5 class="title">{{ headlineTitle }}</h5>
             <div class="icons-wrapper">
               <i class="ocpx-icon-boxycross" @click="open = false"></i>
             </div>
           </div>
           <div class="calendars d-flex">
-            <calendar-ranges @clickRange="clickRange" :ranges="ranges" v-if="!singleDatePicker"></calendar-ranges>
+            <calendar-ranges
+              @clickRange="clickRange"
+              :ranges="ranges"
+              v-if="!singleDatePicker"
+            ></calendar-ranges>
             <div class="calendars-container d-flex flex-wrap">
               <div class="calendars-wrapper d-flex">
                 <div class="drp-calendar left">
@@ -61,7 +65,10 @@
                       @hoverDate="hoverDate"
                     ></calendar>
                   </div>
-                  <div class="slider-wrapper d-flex align-items-center" v-if="hours">
+                  <div
+                    class="slider-wrapper d-flex align-items-center"
+                    v-if="hours"
+                  >
                     <span class="d-block">Hour</span>
                     <slider
                       ref="HoursSliderLeft"
@@ -71,7 +78,10 @@
                       :min="0"
                     />
                   </div>
-                  <div class="slider-wrapper d-flex align-items-center" v-if="hours">
+                  <div
+                    class="slider-wrapper d-flex align-items-center"
+                    v-if="hours"
+                  >
                     <span class="d-block">Minute</span>
                     <slider
                       ref="MinutesSliderLeft"
@@ -82,7 +92,10 @@
                     />
                   </div>
                 </div>
-                <div class="drp-calendar right hidden-xs" v-if="!singleDatePicker">
+                <div
+                  class="drp-calendar right hidden-xs"
+                  v-if="!singleDatePicker"
+                >
                   <div class="daterangepicker_input" v-if="false">
                     <input
                       class="input-mini form-control"
@@ -110,7 +123,10 @@
                       @hoverDate="hoverDate"
                     ></calendar>
                   </div>
-                  <div class="slider-wrapper d-flex align-items-center" v-if="hours">
+                  <div
+                    class="slider-wrapper d-flex align-items-center"
+                    v-if="hours"
+                  >
                     <span class="d-block">Hour</span>
                     <slider
                       ref="HoursSliderRight"
@@ -120,7 +136,10 @@
                       :min="0"
                     />
                   </div>
-                  <div class="slider-wrapper d-flex align-items-center" v-if="hours">
+                  <div
+                    class="slider-wrapper d-flex align-items-center"
+                    v-if="hours"
+                  >
                     <span class="d-block">Minute</span>
                     <slider
                       ref="MinutesSliderRight"
@@ -138,22 +157,36 @@
                   v-if="footerInputs"
                 >
                   <div class="input-wrapper d-flex">
-                    <span class="icon-wrapper d-flex align-items-center justify-content-center">
+                    <span
+                      class="icon-wrapper d-flex align-items-center justify-content-center"
+                    >
                       <i :class="footerInputIconClassName"></i>
                     </span>
-                    <input type="text" class="input" v-model="startInputText" readonly />
+                    <input
+                      type="text"
+                      class="input"
+                      v-model="startInputText"
+                      readonly
+                    />
                   </div>
                   <span class="separator" v-if="!singleDatePicker">
                     <i class="ocpx-icon-minus"></i>
                   </span>
                   <div class="input-wrapper d-flex" v-if="!singleDatePicker">
-                    <span class="icon-wrapper d-flex align-items-center justify-content-center">
+                    <span
+                      class="icon-wrapper d-flex align-items-center justify-content-center"
+                    >
                       <i :class="footerInputIconClassName"></i>
                     </span>
-                    <input type="text" class="input" v-model="endInputText" readonly />
+                    <input
+                      type="text"
+                      class="input"
+                      v-model="endInputText"
+                      readonly
+                    />
                   </div>
                 </div>
-                <div class="drp-buttons d-flex">
+                <div class="drp-buttons d-flex" v-if="!autoApply">
                   <button
                     class="applyBtn btn btn-sm btn-success"
                     :disabled="in_selection"
@@ -161,7 +194,7 @@
                     @click="clickedApply"
                   >
                     <i class="ocpx ocpx-icon-save"></i>
-                    <span>{{locale.applyLabel}}</span>
+                    <span>{{ locale.applyLabel }}</span>
                   </button>
                   <!-- <button
                           class="cancelBtn btn btn-sm btn-default"
@@ -278,6 +311,10 @@ export default {
       default() {
         return false;
       }
+    },
+    autoApply: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -401,6 +438,9 @@ export default {
             this.in_selection = true;
             this.start = new Date(value);
           }
+          if (this.autoApply) {
+            this.clickedApply();
+          }
         } else {
           this.in_selection = true;
           value.hours(this.leftHour);
@@ -415,6 +455,10 @@ export default {
         value.minutes(this.leftMinute);
         this.start = new Date(value);
         this.end = this.start;
+
+        if (this.autoApply) {
+          this.clickedApply();
+        }
       }
     },
     hoverDate(value) {

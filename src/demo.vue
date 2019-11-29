@@ -104,11 +104,12 @@
               :endDate="endDate"
               :locale-data="{ firstDay: 1, format: 'DD.MM.YYYY HH:mm' }"
               :hours="true"
+              :autoApply="true"
               :footerInputs="true"
               :headline="true"
               :minDate="minDate"
               :maxDate="maxDate"
-              :singleDatePicker="singleDatePicker"
+              :singleDatePicker="true"
               @updateDatePicker="updateDatePicker"
             >
               <!-- <div slot="input" slot-scope="picker">
